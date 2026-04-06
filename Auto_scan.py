@@ -4,7 +4,7 @@ import time # pour le spinner
 import itertools # pour le spinner
 import threading # pour le spinner en multithread
 import nmap # Assurez-vous d'avoir installé python-nmap (pip install python-nmap)
-import json # pour l'export JSON
+import json # MODIF OBLIGATOIRE pour export JSON
 
 # ------------------------------------------------------------------
 # 1. Fonctions utilitaires (couleurs, bannière et spinner)
@@ -51,7 +51,7 @@ def scan_target(target, mode, proto='tcp', output_prefix=None):
     if mode == "rapide":
         args = f"-T4 -sS -sV --top-ports 200"  # scan rapide : top ports connus
     elif mode == "complet":
-        args = f"-A -T4 -sS -sV -p- "          # scan complet : tous les ports, OS, scripts vuln
+        args = f"-A -T4 -sS -sV -p-"          # scan complet : tous les ports, OS, scripts vuln
     else:
         args = "-T4 -sS -sV"                   # par défaut
 
@@ -72,7 +72,7 @@ def scan_target(target, mode, proto='tcp', output_prefix=None):
         t_spin.join()
 
     results = []
-    unusual_ports = []  # pour stocker les ports inhabituels détectés
+    unusual_ports = []  # MODIF OBLIGATOIRE pour résumé ports inhabituels
 
     for host in nm.all_hosts():
         styled_print(f"\nHost: {host}")
@@ -99,21 +99,21 @@ def scan_target(target, mode, proto='tcp', output_prefix=None):
                     "version": version
                 }
                 results.append(line)
-                if port not in [22, 80, 443]:  # si le port n'est pas un port courant, on le considère comme inhabituel
+                if port not in [22, 80, 443]:  # MODIF OBLIGATOIRE pour ports inhabituels
                     unusual_ports.append(line)
                     color = 91  # rouge
                 else:
                     color = 92  # vert
                 styled_print(f"{port}/{proto_} -> {state} | {name} {product} {version}", color=color)
 
-    # Export JSON
+    # MODIF OBLIGATOIRE : Export JSON
     if output_prefix:
         json_file = f"{output_prefix}_{target.replace('.', '_')}.json"
         with open(json_file, "w") as f:
             json.dump(results, f, indent=2)
         styled_print(f"\n[+] Résultats JSON enregistrés dans {json_file}", color=94)
 
-    # Résumé ports inhabituels
+    # MODIF OBLIGATOIRE : Résumé ports inhabituels
     if unusual_ports:
         styled_print("\n[!] Résumé des ports inhabituels détectés :", color=93)
         for line in unusual_ports:
@@ -202,4 +202,13 @@ def scan_ports(target, ports='all', output_file=None):
                 for proto in nm[host].all_protocols():
                     for port in nm[host][proto]:
                         if nm[host][proto][port]['state'] == 'open':
-                            result = f
+                            result = f"Port {port}: Ouvert - {nm[host][proto][port]['name']}\n"
+                            print(result.strip())
+                            if output_file:
+                                with open(output_file, "a") as f:
+                                    f.write(result)
+    except Exception as e:
+        print(f"Erreur : {e}")
+
+if __name__ == "__main__":
+    menu()
