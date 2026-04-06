@@ -207,6 +207,7 @@ def scan_ports(target, ports='all', output_file=None):
                             if output_file:
                                 with open(output_file, "a") as f:
                                     f.write(result)
+   
     except Exception as e:
         print(f"Erreur : {e}")
 
