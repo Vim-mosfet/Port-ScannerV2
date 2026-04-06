@@ -4,7 +4,7 @@ import time # pour le spinner
 import itertools # pour le spinner
 import threading # pour le spinner en multithread
 import nmap # Assurez-vous d'avoir installé python-nmap (pip install python-nmap)
-import json # MODIF OBLIGATOIRE pour export JSON
+import json # export JSON
 
 # ------------------------------------------------------------------
 # 1. Fonctions utilitaires (couleurs, bannière et spinner)
@@ -72,7 +72,7 @@ def scan_target(target, mode, proto='tcp', output_prefix=None):
         t_spin.join()
 
     results = []
-    unusual_ports = []  # MODIF OBLIGATOIRE pour résumé ports inhabituels
+    unusual_ports = []  #liste pour ports inhabituels
 
     for host in nm.all_hosts():
         styled_print(f"\nHost: {host}")
@@ -99,14 +99,14 @@ def scan_target(target, mode, proto='tcp', output_prefix=None):
                     "version": version
                 }
                 results.append(line)
-                if port not in [22, 80, 443]:  # MODIF OBLIGATOIRE pour ports inhabituels
+                if port not in [22, 80, 443]:  # liste pour ports inhabituels
                     unusual_ports.append(line)
                     color = 91  # rouge
                 else:
                     color = 92  # vert
                 styled_print(f"{port}/{proto_} -> {state} | {name} {product} {version}", color=color)
 
-    # MODIF OBLIGATOIRE : Export JSON
+    # Export JSON
     if output_prefix:
         json_file = f"{output_prefix}_{target.replace('.', '_')}.json"
         with open(json_file, "w") as f:
