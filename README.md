@@ -33,15 +33,14 @@ It allows you to:
 **Usage:**
 
 ```bash
-python Automatisation_scanNmap.py <IP> --ports <ports>
+python Auto_scan.py 
 ```
 
 **Exemple**
 
-```bash
-python Auto_scan.py 192.1.1.1
+![Image](https://github.com/user-attachments/assets/080fdbba-0614-45fb-8f93-22edc7cd0c2e)
 
-```
+
 
 **Script**
 
