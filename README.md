@@ -38,7 +38,7 @@ python Auto_scan.py
 
 **Exemple**
 
-![Image](https://github.com/user-attachments/assets/080fdbba-0614-45fb-8f93-22edc7cd0c2e)
+![Image](https://github.com/user-attachments/assets/80e43f75-39e7-4843-b350-000916f28697)
 
 
 
