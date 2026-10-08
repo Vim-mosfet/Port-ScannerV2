@@ -1,5 +1,5 @@
 # Port-ScannerV2
-Advanced Python port scanner built for Hack The Box labs, featuring service enumeration, OS detection, and structured output export.
+Advanced Python port scanner built for Hack The Box labs, featuring service enumeration, OS detection, vulnerability scanning (NSE) and structured output export.
 AI was used to assist with the initial structure of the project. All features and improvements were reviewed and adapted manually. More information and usage instructions can be found in the README.md file.
 
 
@@ -18,6 +18,7 @@ It allows you to:
 - Identify open ports and associated services
 - Perform service and version detection
 - Detect the target operating system (OS fingerprinting)
+- Run NSE vulnerability scripts (`--script vuln`) and highlight confirmed findings (CVE, MS17-010, heartbleed, ...)
 - Export scan results to multiple formats (TXT, JSON, CSV)
 
 **Technologies Used:**
@@ -35,6 +36,26 @@ It allows you to:
 ```bash
 python Auto_scan.py 
 ```
+
+**Vulnerability scan (NSE)**
+
+The menu offers two dedicated entries:
+
+```
+5. Scan de vulnérabilités TCP (scripts NSE "vuln")
+6. Scan de vulnérabilités UDP (scripts NSE "vuln")
+```
+
+They run `nmap -T4 -sS -sV --script vuln` (with `-sU` for UDP) and:
+
+* display every NSE script output, in red when a vulnerability is confirmed (`VULNERABLE`, `EXPLOITABLE`) and in blue for informational output;
+* print a final summary listing the vulnerable `host:port/script` pairs (or state that nothing was found);
+* export a dedicated `_vulns.json` report next to the regular JSON export.
+
+Notes:
+
+* SYN scan (`-sS`) and the `vuln` script category require root privileges (`sudo python Auto_scan.py`).
+* `--script vuln` is intrusive and can be slow: only use it against systems you are authorized to test.
 
 **Exemple**
 
